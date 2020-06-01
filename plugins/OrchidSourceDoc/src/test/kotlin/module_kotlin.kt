@@ -1,6 +1,6 @@
 package com.eden.orchid.sourcedoc
 
-import com.eden.orchid.kotlindoc.NewKotlindocGenerator
+import com.eden.orchid.kotlindoc.KotlindocGenerator
 import com.eden.orchid.strikt.collectionWasCreated
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
@@ -8,9 +8,9 @@ import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
 
 fun OrchidIntegrationTest.kotlindocSetup(modules: List<String> = emptyList(), showRunnerLogs: Boolean = false) {
-    val type = NewKotlindocGenerator.type
-    val nodeKinds = NewKotlindocGenerator.nodeKinds
-    val otherSourceKinds = NewKotlindocGenerator.otherSourceKinds
+    val type = KotlindocGenerator.type
+    val nodeKinds = KotlindocGenerator.nodeKinds
+    val otherSourceKinds = KotlindocGenerator.otherSourceKinds
 
     if(modules.isEmpty()) {
         singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
@@ -56,15 +56,15 @@ fun Assertion.Builder<TestResults>.assertKotlinCollections(baseDirs: List<String
     return if (baseDirs.isNotEmpty()) {
         baseDirs.fold(this) { acc, dir ->
             acc
-                .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, dir)
-                .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "$dir-classes")
-                .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "$dir-packages")
-        }.collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "modules")
+                .collectionWasCreated(KotlindocGenerator.GENERATOR_KEY, dir)
+                .collectionWasCreated(KotlindocGenerator.GENERATOR_KEY, "$dir-classes")
+                .collectionWasCreated(KotlindocGenerator.GENERATOR_KEY, "$dir-packages")
+        }.collectionWasCreated(KotlindocGenerator.GENERATOR_KEY, "modules")
     } else {
         this
-            .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "modules")
-            .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, NewKotlindocGenerator.GENERATOR_KEY)
-            .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "classes")
-            .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "packages")
+            .collectionWasCreated(KotlindocGenerator.GENERATOR_KEY, "modules")
+            .collectionWasCreated(KotlindocGenerator.GENERATOR_KEY, KotlindocGenerator.GENERATOR_KEY)
+            .collectionWasCreated(KotlindocGenerator.GENERATOR_KEY, "classes")
+            .collectionWasCreated(KotlindocGenerator.GENERATOR_KEY, "packages")
     }
 }

@@ -1,6 +1,6 @@
 package com.eden.orchid.sourcedoc
 
-import com.eden.orchid.javadoc.NewJavadocGenerator
+import com.eden.orchid.javadoc.JavadocGenerator
 import com.eden.orchid.strikt.collectionWasCreated
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
@@ -8,9 +8,9 @@ import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
 
 fun OrchidIntegrationTest.javadocSetup(modules: List<String> = emptyList(), showRunnerLogs: Boolean = false) {
-    val type = NewJavadocGenerator.type
-    val nodeKinds = NewJavadocGenerator.nodeKinds
-    val otherSourceKinds = NewJavadocGenerator.otherSourceKinds
+    val type = JavadocGenerator.type
+    val nodeKinds = JavadocGenerator.nodeKinds
+    val otherSourceKinds = JavadocGenerator.otherSourceKinds
 
     if(modules.isEmpty()) {
         singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
@@ -41,16 +41,16 @@ fun Assertion.Builder<TestResults>.assertJavaCollections(baseDirs: List<String> 
     return if(baseDirs.isNotEmpty()) {
         baseDirs.fold(this) { acc, dir ->
             acc
-                .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, dir)
-                .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "$dir-classes")
-                .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "$dir-packages")
-        }.collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "modules")
+                .collectionWasCreated(JavadocGenerator.GENERATOR_KEY, dir)
+                .collectionWasCreated(JavadocGenerator.GENERATOR_KEY, "$dir-classes")
+                .collectionWasCreated(JavadocGenerator.GENERATOR_KEY, "$dir-packages")
+        }.collectionWasCreated(JavadocGenerator.GENERATOR_KEY, "modules")
     }
     else {
         this
-            .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "modules")
-            .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, NewJavadocGenerator.GENERATOR_KEY)
-            .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "classes")
-            .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "packages")
+            .collectionWasCreated(JavadocGenerator.GENERATOR_KEY, "modules")
+            .collectionWasCreated(JavadocGenerator.GENERATOR_KEY, JavadocGenerator.GENERATOR_KEY)
+            .collectionWasCreated(JavadocGenerator.GENERATOR_KEY, "classes")
+            .collectionWasCreated(JavadocGenerator.GENERATOR_KEY, "packages")
     }
 }

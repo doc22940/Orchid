@@ -1,14 +1,14 @@
 package com.eden.orchid.sourcedoc
 
-import com.eden.orchid.groovydoc.NewGroovydocGenerator
-import com.eden.orchid.javadoc.NewJavadocGenerator
-import com.eden.orchid.kotlindoc.NewKotlindocGenerator
+import com.eden.orchid.groovydoc.GroovydocGenerator
+import com.eden.orchid.javadoc.JavadocGenerator
+import com.eden.orchid.kotlindoc.KotlindocGenerator
 import com.eden.orchid.plugindocs.PluginDocsModule
 import com.eden.orchid.strikt.asExpected
 import com.eden.orchid.strikt.assertWhen
 import com.eden.orchid.strikt.noOtherCollectionsCreated
 import com.eden.orchid.strikt.nothingElseRendered
-import com.eden.orchid.swiftdoc.NewSwiftdocGenerator
+import com.eden.orchid.swiftdoc.SwiftdocGenerator
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.BeforeEach
@@ -35,7 +35,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @DisabledForJreRange(min = JRE.JAVA_12)
     fun `Single-module Java`() {
         javadocSetup()
-        execute(withGenerator<NewJavadocGenerator>())
+        execute(withGenerator<JavadocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
             .assertJavaPages()
@@ -48,7 +48,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @DisabledForJreRange(min = JRE.JAVA_12)
     fun `Multi-module Java`() {
         javadocSetup(modules)
-        execute(withGenerator<NewJavadocGenerator>())
+        execute(withGenerator<JavadocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
             .assertJavaPages(modules)
@@ -60,7 +60,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @Test
     fun `Single-module Groovy`() {
         groovydocSetup()
-        execute(withGenerator<NewGroovydocGenerator>())
+        execute(withGenerator<GroovydocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
             .assertGroovyPages()
@@ -72,7 +72,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @Test
     fun `Multi-module Groovy`() {
         groovydocSetup(modules)
-        execute(withGenerator<NewGroovydocGenerator>())
+        execute(withGenerator<GroovydocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
             .assertGroovyPages(modules)
@@ -84,7 +84,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @Test
     fun `Single-module Kotlin`() {
         kotlindocSetup()
-        execute(withGenerator<NewKotlindocGenerator>())
+        execute(withGenerator<KotlindocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
             .assertKotlinPages()
@@ -96,7 +96,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @Test
     fun `Multi-module Kotlin`() {
         kotlindocSetup(modules)
-        execute(withGenerator<NewKotlindocGenerator>())
+        execute(withGenerator<KotlindocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
             .assertKotlinPages(modules)
@@ -109,7 +109,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @EnabledOnOs(OS.MAC)
     fun `Single-module Swift`() {
         swiftdocSetup()
-        execute(withGenerator<NewSwiftdocGenerator>())
+        execute(withGenerator<SwiftdocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
             .assertSwiftPages()
@@ -122,7 +122,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @EnabledOnOs(OS.MAC)
     fun `Multi-module Swift`() {
         swiftdocSetup(modules)
-        execute(withGenerator<NewSwiftdocGenerator>())
+        execute(withGenerator<SwiftdocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
             .assertSwiftPages(modules)
@@ -144,11 +144,11 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
 
         execute(
             *mutableListOf(
-                withGenerator<NewGroovydocGenerator>(),
-                withGenerator<NewKotlindocGenerator>()
+                withGenerator<GroovydocGenerator>(),
+                withGenerator<KotlindocGenerator>()
             )
-                .addWhen(JRE.JAVA_12.isCurrentVersion) { withGenerator<NewJavadocGenerator>() }
-                .addWhen(OS.MAC.isCurrentOs) { withGenerator<NewSwiftdocGenerator>() }
+                .addWhen(JRE.JAVA_12.isCurrentVersion) { withGenerator<JavadocGenerator>() }
+                .addWhen(OS.MAC.isCurrentOs) { withGenerator<SwiftdocGenerator>() }
                 .toTypedArray()
         )
             .asExpected()
@@ -168,11 +168,11 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @Test
     fun `Multi-module all kinds`() {
         val generators = mutableListOf(
-            withGenerator<NewGroovydocGenerator>(),
-            withGenerator<NewKotlindocGenerator>()
+            withGenerator<GroovydocGenerator>(),
+            withGenerator<KotlindocGenerator>()
         )
-            .addWhen(JRE.JAVA_12.isCurrentVersion) { withGenerator<NewJavadocGenerator>() }
-            .addWhen(OS.MAC.isCurrentOs) { withGenerator<NewSwiftdocGenerator>() }
+            .addWhen(JRE.JAVA_12.isCurrentVersion) { withGenerator<JavadocGenerator>() }
+            .addWhen(OS.MAC.isCurrentOs) { withGenerator<SwiftdocGenerator>() }
 
         if(JRE.JAVA_12.isCurrentVersion) {
             javadocSetup(modules)

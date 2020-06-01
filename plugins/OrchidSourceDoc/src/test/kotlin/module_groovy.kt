@@ -1,6 +1,6 @@
 package com.eden.orchid.sourcedoc
 
-import com.eden.orchid.groovydoc.NewGroovydocGenerator
+import com.eden.orchid.groovydoc.GroovydocGenerator
 import com.eden.orchid.strikt.collectionWasCreated
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
@@ -8,9 +8,9 @@ import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
 
 fun OrchidIntegrationTest.groovydocSetup(modules: List<String> = emptyList(), showRunnerLogs: Boolean = false) {
-    val type = NewGroovydocGenerator.type
-    val nodeKinds = NewGroovydocGenerator.nodeKinds
-    val otherSourceKinds = NewGroovydocGenerator.otherSourceKinds
+    val type = GroovydocGenerator.type
+    val nodeKinds = GroovydocGenerator.nodeKinds
+    val otherSourceKinds = GroovydocGenerator.otherSourceKinds
 
     if(modules.isEmpty()) {
         singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
@@ -47,16 +47,16 @@ fun Assertion.Builder<TestResults>.assertGroovyCollections(baseDirs: List<String
     return if(baseDirs.isNotEmpty()) {
         baseDirs.fold(this) { acc, dir ->
             acc
-                .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, dir)
-                .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "$dir-classes")
-                .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "$dir-packages")
-        }.collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "modules")
+                .collectionWasCreated(GroovydocGenerator.GENERATOR_KEY, dir)
+                .collectionWasCreated(GroovydocGenerator.GENERATOR_KEY, "$dir-classes")
+                .collectionWasCreated(GroovydocGenerator.GENERATOR_KEY, "$dir-packages")
+        }.collectionWasCreated(GroovydocGenerator.GENERATOR_KEY, "modules")
     }
     else {
         this
-            .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "modules")
-            .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, NewGroovydocGenerator.GENERATOR_KEY)
-            .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "classes")
-            .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "packages")
+            .collectionWasCreated(GroovydocGenerator.GENERATOR_KEY, "modules")
+            .collectionWasCreated(GroovydocGenerator.GENERATOR_KEY, GroovydocGenerator.GENERATOR_KEY)
+            .collectionWasCreated(GroovydocGenerator.GENERATOR_KEY, "classes")
+            .collectionWasCreated(GroovydocGenerator.GENERATOR_KEY, "packages")
     }
 }
